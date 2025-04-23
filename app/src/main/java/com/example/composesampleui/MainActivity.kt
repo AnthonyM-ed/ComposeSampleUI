@@ -3,45 +3,45 @@ package com.example.composesampleui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.composesampleui.ui.theme.ComposeSampleUITheme
+import androidx.compose.ui.res.painterResource
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            ComposeSampleUITheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+            MessageCard(Message("Android", "Jetpack Compose"))
         }
     }
 }
 
+data class Message(val author: String, val body: String)
+
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello my $name!",
-        modifier = modifier
-    )
+fun MessageCard(msg: Message) {
+    Row {
+        Image(
+            painter = painterResource(R.drawable.ic_login_light_blue),
+            contentDescription = "Contact profile picture",
+        )
+
+        Column {
+            Text(text = msg.author)
+            Text(text = msg.body)
+        }
+
+    }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun GreetingPreview() {
-    ComposeSampleUITheme {
-        Greeting("Android Bot")
-    }
+fun PreviewMessageCard() {
+    MessageCard(
+        msg = Message("Lexi", "Hey, take a look at Jetpack Compose, it's great!")
+    )
 }
